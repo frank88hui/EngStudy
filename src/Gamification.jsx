@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from 'react';
-
-// 游戏化系统组件
-const Gamification = ({ progress, learnedWords, setProgress }) => {
+// 游戏化系统
+const Gamification = (props) => {
   // 积分状态
-  const [points, setPoints] = useState(0);
+  let points = 0;
   // 奖励状态
-  const [rewards, setRewards] = useState([]);
+  let rewards = [];
   // 显示奖励通知
-  const [showReward, setShowReward] = useState(false);
-  const [currentReward, setCurrentReward] = useState(null);
+  let showReward = false;
+  let currentReward = null;
   // 连击数
-  const [streak, setStreak] = useState(0);
+  let streak = 0;
   // 最高连击数
-  const [highestStreak, setHighestStreak] = useState(0);
+  let highestStreak = 0;
 
   // 奖励配置
   const rewardConfig = [
@@ -51,61 +49,68 @@ const Gamification = ({ progress, learnedWords, setProgress }) => {
   ];
 
   // 从本地存储加载数据
-  useEffect(() => {
+  const loadData = () => {
     const savedPoints = localStorage.getItem('english_learning_points');
     const savedStreak = localStorage.getItem('english_learning_streak');
     const savedHighestStreak = localStorage.getItem('english_learning_highest_streak');
     const savedRewards = localStorage.getItem('english_learning_rewards');
 
-    if (savedPoints) setPoints(parseInt(savedPoints));
-    if (savedStreak) setStreak(parseInt(savedStreak));
-    if (savedHighestStreak) setHighestStreak(parseInt(savedHighestStreak));
-    if (savedRewards) setRewards(JSON.parse(savedRewards));
-  }, []);
+    if (savedPoints) points = parseInt(savedPoints);
+    if (savedStreak) streak = parseInt(savedStreak);
+    if (savedHighestStreak) highestStreak = parseInt(savedHighestStreak);
+    if (savedRewards) rewards = JSON.parse(savedRewards);
+  };
 
   // 保存数据到本地存储
-  useEffect(() => {
+  const saveData = () => {
     localStorage.setItem('english_learning_points', points);
     localStorage.setItem('english_learning_streak', streak);
     localStorage.setItem('english_learning_highest_streak', highestStreak);
     localStorage.setItem('english_learning_rewards', JSON.stringify(rewards));
-  }, [points, streak, highestStreak, rewards]);
+  };
 
   // 检查奖励
-  useEffect(() => {
+  const checkRewards = () => {
     rewardConfig.forEach(reward => {
       if (!rewards.includes(reward.id) && points >= reward.pointsRequired) {
-        setRewards(prev => [...prev, reward.id]);
-        setCurrentReward(reward);
-        setShowReward(true);
-        setTimeout(() => setShowReward(false), 3000);
+        rewards.push(reward.id);
+        currentReward = reward;
+        showReward = true;
+        setTimeout(() => showReward = false, 3000);
+        saveData();
       }
     });
-  }, [points, rewards]);
+  };
 
   // 增加积分
   const addPoints = (amount) => {
     // 计算连击奖励
     const newStreak = streak + 1;
-    setStreak(newStreak);
+    streak = newStreak;
     
     if (newStreak > highestStreak) {
-      setHighestStreak(newStreak);
+      highestStreak = newStreak;
     }
     
     // 连击加成
     const streakBonus = Math.floor(newStreak / 5); // 每5连击加1分
     const totalPoints = amount + streakBonus;
     
-    setPoints(prev => prev + totalPoints);
+    points += totalPoints;
+    saveData();
+    checkRewards();
     
     return totalPoints;
   };
 
   // 重置连击
   const resetStreak = () => {
-    setStreak(0);
+    streak = 0;
+    saveData();
   };
+
+  // 初始化加载数据
+  loadData();
 
   return {
     points,
