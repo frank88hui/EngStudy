@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import './StudyPlan.css'
 
 function StudyPlan() {
@@ -182,7 +183,42 @@ function StudyPlan() {
   }, [])
   
   return (
-    <div className="study-plan-container">
+    <div className="App">
+      <header className="App-header">
+        <h1>521词小学英语口语</h1>
+        
+        {/* 导航栏 */}
+        <div className="navigation-bar">
+          <Link to="/" className="nav-btn">
+            🏠 首页
+          </Link>
+          <Link to="/words" className="nav-btn">
+            📚 单词学习
+          </Link>
+          <Link to="/dialogue" className="nav-btn">
+            💬 场景对话
+          </Link>
+          <Link to="/sentence" className="nav-btn">
+            📝 句型训练
+          </Link>
+          <Link to="/test" className="nav-btn">
+            🧪 单词测试
+          </Link>
+          <Link to="/studyplan" className="nav-btn active">
+            📅 学习计划
+          </Link>
+          <Link to="/favorites" className="nav-btn">
+            ❤️ 收藏
+          </Link>
+          <Link to="/difficult" className="nav-btn">
+            📖 生词本
+          </Link>
+          <Link to="/report" className="nav-btn">
+            📊 学习报告
+          </Link>
+        </div>
+      </header>
+      <div className="study-plan-container">
       <h2>📅 学习计划</h2>
       
       {/* 学习统计 */}
@@ -309,6 +345,10 @@ function StudyPlan() {
           </div>
         </div>
       )}
+      </div>
+      <footer className="App-footer">
+        <p>© 2026 521词小学英语口语学习应用</p>
+      </footer>
     </div>
   )
 }

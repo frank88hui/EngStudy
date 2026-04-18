@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import './StudyReport.css';
 
 // 学习报告组件
@@ -104,7 +105,42 @@ function StudyReport() {
   };
   
   return (
-    <div className="study-report">
+    <div className="App">
+      <header className="App-header">
+        <h1>521词小学英语口语</h1>
+        
+        {/* 导航栏 */}
+        <div className="navigation-bar">
+          <Link to="/" className="nav-btn">
+            🏠 首页
+          </Link>
+          <Link to="/words" className="nav-btn">
+            📚 单词学习
+          </Link>
+          <Link to="/dialogue" className="nav-btn">
+            💬 场景对话
+          </Link>
+          <Link to="/sentence" className="nav-btn">
+            📝 句型训练
+          </Link>
+          <Link to="/test" className="nav-btn">
+            🧪 单词测试
+          </Link>
+          <Link to="/studyplan" className="nav-btn">
+            📅 学习计划
+          </Link>
+          <Link to="/favorites" className="nav-btn">
+            ❤️ 收藏
+          </Link>
+          <Link to="/difficult" className="nav-btn">
+            📖 生词本
+          </Link>
+          <Link to="/report" className="nav-btn active">
+            📊 学习报告
+          </Link>
+        </div>
+      </header>
+      <div className="study-report">
       <div className="report-header">
         <h2>📊 学习报告</h2>
         <p>了解你的学习情况</p>
@@ -191,6 +227,10 @@ function StudyReport() {
           </div>
         </div>
       </div>
+      </div>
+      <footer className="App-footer">
+        <p>© 2026 521词小学英语口语学习应用</p>
+      </footer>
     </div>
   );
 }
