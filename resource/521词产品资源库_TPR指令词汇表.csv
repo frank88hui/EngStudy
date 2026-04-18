@@ -1,0 +1,201 @@
+﻿序号,分类,英文指令,中文释义,适用级别,产品用途
+1,身体动作,Stand up.,站起来,L1,TPR入门指令
+2,身体动作,Sit down.,坐下,L1,TPR入门指令
+3,身体动作,Turn around.,转个圈,L1,TPR入门指令
+4,身体动作,Jump up.,跳起来,L1,TPR入门指令
+5,身体动作,Clap your hands.,拍手,L1,TPR入门指令
+6,身体动作,Touch your nose.,摸你的鼻子,L1,身体部位认知
+7,身体动作,Touch your head.,摸你的头,L1,身体部位认知
+8,身体动作,Touch your toes.,摸你的脚趾,L1,身体部位认知
+9,身体动作,Touch your shoulders.,摸你的肩膀,L1,身体部位认知
+10,身体动作,Wave your hand.,挥手,L1,TPR入门指令
+11,身体动作,Stomp your feet.,跺脚,L1,TPR入门指令
+12,身体动作,Bend your knees.,弯膝盖,L1,TPR入门指令
+13,身体动作,Stretch your arms.,伸展手臂,L1,TPR入门指令
+14,身体动作,Close your eyes.,闭上眼睛,L1,面部动作
+15,身体动作,Open your eyes.,睁开眼睛,L1,面部动作
+16,身体动作,Shake your body.,抖抖身体,L1,TPR入门指令
+17,身体动作,Cross your arms.,交叉手臂,L1,TPR入门指令
+18,身体动作,Lie down.,躺下,L1,TPR入门指令
+19,身体动作,Stand on one leg.,单脚站立,L1,TPR入门指令
+20,身体动作,Raise your hand.,举手,L1,课堂指令
+21,物品操作,Pick up the book.,捡起书本,L1,物品认知
+22,物品操作,Put down the pencil.,放下铅笔,L1,物品认知
+23,物品操作,Open the door.,开门,L1,日常动作
+24,物品操作,Close the window.,关窗户,L1,日常动作
+25,物品操作,Turn off the light.,关灯,L1,日常动作
+26,物品操作,Turn on the fan.,打开电风扇,L1,日常动作
+27,物品操作,Hold the ball.,拿住球,L1,物品认知
+28,物品操作,Push the chair.,推椅子,L1,物品认知
+29,物品操作,Pull the drawer.,拉抽屉,L1,物品认知
+30,物品操作,Fold the paper.,折纸,L2,手工活动
+31,物品操作,Cut the paper.,剪纸,L2,手工活动
+32,物品操作,Write your name.,写下你的名字,L2,课堂指令
+33,物品操作,Draw a cat.,画一只猫,L2,课堂指令
+34,物品操作,Erase the board.,擦黑板,L2,课堂指令
+35,物品操作,Open your bag.,打开你的书包,L1,日常动作
+36,物品操作,Take out your book.,拿出你的书,L1,课堂指令
+37,物品操作,Put on your hat.,戴上帽子,L1,衣物相关
+38,物品操作,Take off your shoes.,脱下鞋子,L1,衣物相关
+39,物品操作,Point to the clock.,指向时钟,L1,课堂指令
+40,物品操作,Drop the paper.,丢下纸张,L1,物品认知
+41,课堂指令,Listen carefully.,仔细听,L1,课堂管理
+42,课堂指令,Repeat after me.,跟我重复,L1,跟读练习
+43,课堂指令,Answer the question.,回答问题,L2,课堂互动
+44,课堂指令,Look at the board.,看黑板,L1,课堂管理
+45,课堂指令,Don't talk.,不要说话,L1,课堂管理
+46,课堂指令,Come here.,过来,L1,课堂管理
+47,课堂指令,Go back to your seat.,回到座位,L1,课堂管理
+48,课堂指令,Work in pairs.,两人一组,L2,课堂活动
+49,课堂指令,Work in groups.,小组合作,L2,课堂活动
+50,课堂指令,Line up.,排队,L1,课堂管理
+51,课堂指令,Pass the paper.,传递纸张,L1,课堂活动
+52,课堂指令,Open your book.,打开书本,L1,课堂指令
+53,课堂指令,Close your book.,合上书本,L1,课堂指令
+54,课堂指令,Read aloud.,大声朗读,L2,口语练习
+55,课堂指令,Spell the word.,拼读这个单词,L2,词汇练习
+56,课堂指令,Circle the picture.,圈出图画,L1,课堂活动
+57,课堂指令,Underline the word.,划出这个单词,L2,课堂活动
+58,课堂指令,Color the picture.,给图画涂色,L1,课堂活动
+59,课堂指令,Check your answer.,检查你的答案,L2,课堂活动
+60,课堂指令,Raise your hand.,举手,L1,课堂管理
+61,面部动作,Smile.,微笑,L1,情绪表达
+62,面部动作,Frown.,皱眉,L1,情绪表达
+63,面部动作,Blink your eyes.,眨眼,L1,面部动作
+64,面部动作,Wink.,眨一只眼,L1,面部动作
+65,面部动作,Stick out your tongue.,伸出舌头,L1,面部动作
+66,面部动作,Open your mouth.,张开嘴巴,L1,面部动作
+67,面部动作,Close your mouth.,闭上嘴巴,L1,面部动作
+68,面部动作,Sneeze.,打喷嚏,L1,面部动作
+69,面部动作,Cough.,咳嗽,L1,面部动作
+70,面部动作,Yawn.,打哈欠,L1,面部动作
+71,面部动作,Puff your cheeks.,鼓起脸颊,L2,面部动作
+72,面部动作,Lick your lips.,舔嘴唇,L2,面部动作
+73,面部动作,Touch your cheek.,摸你的脸颊,L1,身体部位
+74,面部动作,Touch your chin.,摸你的下巴,L1,身体部位
+75,面部动作,Rub your eyes.,揉揉眼睛,L1,日常动作
+76,面部动作,Shake your head.,摇头,L1,日常动作
+77,面部动作,Nod your head.,点头,L1,日常动作
+78,面部动作,Make a funny face.,做个鬼脸,L1,趣味互动
+79,面部动作,Sniff.,嗅一嗅,L1,感官动作
+80,面部动作,Whistle.,吹口哨,L2,面部动作
+81,日常生活,Brush your teeth.,刷牙,L1,日常习惯
+82,日常生活,Wash your face.,洗脸,L1,日常习惯
+83,日常生活,Comb your hair.,梳头发,L1,日常习惯
+84,日常生活,Eat your breakfast.,吃早餐,L1,日常习惯
+85,日常生活,Drink water.,喝水,L1,日常习惯
+86,日常生活,Put on your clothes.,穿衣服,L1,衣物相关
+87,日常生活,Take off your coat.,脱掉外套,L1,衣物相关
+88,日常生活,Go to bed.,上床睡觉,L1,日常习惯
+89,日常生活,Wake up.,醒来,L1,日常习惯
+90,日常生活,Make your bed.,整理床铺,L2,日常习惯
+91,日常生活,Tie your shoes.,系鞋带,L2,日常习惯
+92,日常生活,Button your shirt.,扣上衬衣扣子,L2,衣物相关
+93,日常生活,Zip your jacket.,拉上夹克拉链,L2,衣物相关
+94,日常生活,Flush the toilet.,冲马桶,L1,日常习惯
+95,日常生活,Wash your hands.,洗手,L1,日常习惯
+96,日常生活,Dry your hands.,擦干手,L1,日常习惯
+97,日常生活,Turn on the tap.,打开水龙头,L1,日常动作
+98,日常生活,Turn off the tap.,关掉水龙头,L1,日常动作
+99,日常生活,Feed the pet.,喂宠物,L2,日常动作
+100,日常生活,Pack your bag.,收拾书包,L2,日常习惯
+101,游戏互动,Play the drum.,敲鼓,L1,音乐互动
+102,游戏互动,Bounce the ball.,拍球,L1,体育互动
+103,游戏互动,Kick the ball.,踢球,L1,体育互动
+104,游戏互动,Throw the ball.,扔球,L1,体育互动
+105,游戏互动,Catch the ball.,接住球,L1,体育互动
+106,游戏互动,Spin the top.,转陀螺,L2,游戏互动
+107,游戏互动,Roll the dice.,掷骰子,L2,游戏互动
+108,游戏互动,Sing a song.,唱歌,L1,音乐互动
+109,游戏互动,Dance to the music.,跟着音乐跳舞,L1,音乐互动
+110,游戏互动,Pretend to be a cat.,假装是一只猫,L2,角色扮演
+111,游戏互动,Hop like a frog.,像青蛙一样跳,L1,动物模仿
+112,游戏互动,Fly like a bird.,像鸟一样飞,L1,动物模仿
+113,游戏互动,Swim like a fish.,像鱼一样游,L1,动物模仿
+114,游戏互动,Crawl like a baby.,像婴儿一样爬,L1,动物模仿
+115,游戏互动,Act like a robot.,像机器人一样表演,L2,角色扮演
+116,游戏互动,Make a train.,组成火车,L1,团队游戏
+117,游戏互动,Play hide and seek.,玩捉迷藏,L1,团队游戏
+118,游戏互动,Follow me.,跟着我,L1,TPR入门
+119,游戏互动,Freeze!,定住不动！,L1,趣味互动
+120,游戏互动,Tag your friend.,拍你的朋友,L1,团队游戏
+121,感官动作,Touch something soft.,摸一下柔软的东西,L2,感官认知
+122,感官动作,Touch something hard.,摸一下坚硬的东西,L2,感官认知
+123,感官动作,Smell the flower.,闻一闻花,L2,感官认知
+124,感官动作,Listen to the music.,听音乐,L1,感官认知
+125,感官动作,Look at the stars.,看星星,L2,感官认知
+126,感官动作,Taste the lemon.,尝一尝柠檬,L2,感官认知
+127,感官动作,Cover your ears.,捂住耳朵,L1,感官认知
+128,感官动作,Open your eyes wide.,睁大眼睛,L1,感官认知
+129,感官动作,Touch something cold.,摸一下冰冷的东西,L2,感官认知
+130,感官动作,Touch something warm.,摸一下温热的东西,L2,感官认知
+131,感官动作,Shake the box.,摇一摇盒子,L2,感官认知
+132,感官动作,Smell your hands.,闻闻你的手,L2,感官认知
+133,感官动作,Feel your heartbeat.,感受你的心跳,L3,感官认知
+134,感官动作,Look through the window.,透过窗户看,L2,感官认知
+135,感官动作,Listen carefully.,仔细听,L1,感官认知
+136,感官动作,Taste the candy.,尝一尝糖果,L1,感官认知
+137,感官动作,Feel the wall.,摸一下墙,L1,感官认知
+138,感官动作,Watch the video.,看视频,L1,感官认知
+139,感官动作,Turn your head slowly.,慢慢转头,L2,感官认知
+140,感官动作,Sniff the air.,闻一闻空气,L2,感官认知
+141,情绪表达,Show me a happy face.,做出开心的表情,L2,情绪认知
+142,情绪表达,Show me a sad face.,做出伤心的表情,L2,情绪认知
+143,情绪表达,Laugh out loud.,大声笑,L1,情绪表达
+144,情绪表达,Cry like a baby.,像小宝宝一样哭,L1,情绪表达
+145,情绪表达,Act surprised.,表现出惊讶,L2,情绪表达
+146,情绪表达,Act scared.,表现出害怕,L2,情绪表达
+147,情绪表达,Act angry.,表现出生气,L2,情绪表达
+148,情绪表达,Act sleepy.,表现出困倦,L2,情绪表达
+149,情绪表达,Take a deep breath.,深呼吸,L2,情绪管理
+150,情绪表达,Give a thumbs up.,竖起大拇指,L1,情绪表达
+151,情绪表达,Give a thumbs down.,竖起大拇指朝下,L1,情绪表达
+152,情绪表达,Show peace sign.,比出和平手势,L2,情绪表达
+153,情绪表达,Clap happily.,开心地拍手,L1,情绪表达
+154,情绪表达,Jump with joy.,高兴地跳起来,L1,情绪表达
+155,情绪表达,Pretend you're excited.,假装你很兴奋,L2,情绪表达
+156,情绪表达,Let out a sigh.,叹气,L2,情绪表达
+157,情绪表达,Cover your face.,捂住脸,L1,情绪表达
+158,情绪表达,Put your hands on your cheeks.,把手放在脸颊上,L1,情绪表达
+159,情绪表达,Shake with fear.,吓得发抖,L2,情绪表达
+160,情绪表达,Smile with your eyes.,用眼睛微笑,L2,情绪表达
+161,节日庆典,Wave the flag.,挥舞旗帜,L2,节日活动
+162,节日庆典,Blow the candle.,吹蜡烛,L2,节日活动
+163,节日庆典,Sing Happy Birthday.,唱生日歌,L1,节日活动
+164,节日庆典,Decorate the tree.,装饰圣诞树,L2,节日活动
+165,节日庆典,Wear a costume.,穿上节日服装,L2,节日活动
+166,节日庆典,Hide the eggs.,藏彩蛋,L2,节日活动
+167,节日庆典,Find the eggs.,找彩蛋,L2,节日活动
+168,节日庆典,Light the fireworks.,点烟花,L3,节日活动
+169,节日庆典,Draw a pumpkin.,画一个南瓜,L2,节日活动
+170,节日庆典,Say Trick or treat!,说不给糖就捣蛋,L2,节日活动
+171,节日庆典,Give a present.,送礼物,L2,节日活动
+172,节日庆典,Open a gift.,打开礼物,L1,节日活动
+173,节日庆典,Make a heart shape.,比一个爱心,L1,节日活动
+174,节日庆典,Throw confetti.,撒五彩纸屑,L3,节日活动
+175,节日庆典,Dance in a circle.,围圈跳舞,L1,节日活动
+176,节日庆典,Hold hands.,拉手,L1,节日活动
+177,节日庆典,Make a snowman.,堆雪人,L2,节日活动
+178,节日庆典,Hang up the stockings.,挂上圣诞袜,L2,节日活动
+179,节日庆典,Ring the bell.,摇铃,L1,节日活动
+180,节日庆典,Wave and say Happy New Year!,挥手说新年快乐！,L1,节日活动
+181,语言认知,Spell your name.,拼出你的名字,L2,词汇练习
+182,语言认知,Say the alphabet.,说出字母表,L1,字母学习
+183,语言认知,Count to ten.,数到十,L1,数字学习
+184,语言认知,Say your age.,说出你的年龄,L1,日常表达
+185,语言认知,Say the colors.,说出颜色,L1,颜色认知
+186,语言认知,Point to red.,指向红色,L1,颜色认知
+187,语言认知,Point to the triangle.,指向三角形,L2,形状认知
+188,语言认知,Find something blue.,找一个蓝色的东西,L1,颜色认知
+189,语言认知,Say your favorite animal.,说出你最喜欢的动物,L2,口语表达
+190,语言认知,Say the days of the week.,说出一周七天,L2,时间学习
+191,语言认知,Clap for each letter.,每说一个字母拍一下手,L1,字母学习
+192,语言认知,Point to the biggest.,指向最大的那个,L2,比较认知
+193,语言认知,Show me three fingers.,伸出三根手指,L1,数字学习
+194,语言认知,Touch the number five.,摸数字五,L1,数字学习
+195,语言认知,Put the shapes in order.,按顺序放形状,L2,形状认知
+196,语言认知,Say a rhyming word.,说一个押韵的词,L3,语音学习
+197,语言认知,Guess the sound.,猜这个声音,L2,听力练习
+198,语言认知,Match the cards.,配对卡片,L2,认知游戏
+199,语言认知,Touch the letter A.,摸字母A,L1,字母学习
+200,语言认知,Say a sentence.,说一句话,L2,口语表达
