@@ -58,7 +58,14 @@ const Gamification = (props) => {
     if (savedPoints) points = parseInt(savedPoints);
     if (savedStreak) streak = parseInt(savedStreak);
     if (savedHighestStreak) highestStreak = parseInt(savedHighestStreak);
-    if (savedRewards) rewards = JSON.parse(savedRewards);
+    if (savedRewards) {
+      try {
+        rewards = JSON.parse(savedRewards);
+      } catch (error) {
+        console.error('Failed to parse rewards from localStorage:', error);
+        rewards = [];
+      }
+    }
   };
 
   // 保存数据到本地存储

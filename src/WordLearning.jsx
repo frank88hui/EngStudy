@@ -87,12 +87,22 @@ const WordLearning = () => {
   
   // 收藏和生词本状态
   const [favorites, setFavorites] = useState(() => {
-    const saved = localStorage.getItem('favorites');
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem('favorites');
+      return saved ? JSON.parse(saved) : [];
+    } catch (error) {
+      console.error('Failed to parse favorites from localStorage:', error);
+      return [];
+    }
   })
   const [difficultWords, setDifficultWords] = useState(() => {
-    const saved = localStorage.getItem('difficultWords');
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem('difficultWords');
+      return saved ? JSON.parse(saved) : [];
+    } catch (error) {
+      console.error('Failed to parse difficultWords from localStorage:', error);
+      return [];
+    }
   })
   
   // 游戏化系统状态
@@ -141,14 +151,27 @@ const WordLearning = () => {
       
       // 从本地存储获取现有数据
       const savedStats = localStorage.getItem('learningStats');
-      let learningStats = savedStats ? JSON.parse(savedStats) : {
-        totalLearningTime: 0,
-        dailyLearningTime: {},
-        weeklyProgress: [],
-        wordMastery: {},
-        categoryProgress: {},
-        streak: 0,
-      };
+      let learningStats;
+      try {
+        learningStats = savedStats ? JSON.parse(savedStats) : {
+          totalLearningTime: 0,
+          dailyLearningTime: {},
+          weeklyProgress: [],
+          wordMastery: {},
+          categoryProgress: {},
+          streak: 0,
+        };
+      } catch (error) {
+        console.error('Failed to parse learningStats from localStorage:', error);
+        learningStats = {
+          totalLearningTime: 0,
+          dailyLearningTime: {},
+          weeklyProgress: [],
+          wordMastery: {},
+          categoryProgress: {},
+          streak: 0,
+        };
+      }
       
       // 更新总学习时间
       learningStats.totalLearningTime += sessionTime;
