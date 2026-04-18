@@ -200,13 +200,13 @@ const WordLearning = () => {
   }, [isLoading, progress, learnedWords])
 
   // 获取当前分类的单词列表
-  const currentWords = words[currentCategory].words
+  const currentWords = words.length > 0 && currentCategory < words.length ? words[currentCategory].words : []
   // 获取当前单词
-  const currentWord = currentWords[currentWordIndex]
+  const currentWord = currentWords.length > 0 && currentWordIndex < currentWords.length ? currentWords[currentWordIndex] : null
 
   // 发音功能
   const pronounceWord = () => {
-    if ('speechSynthesis' in window) {
+    if ('speechSynthesis' in window && currentWord) {
       setIsSpeaking(true)
       
       // 生成音频波形动画数据 - 优化性能
@@ -264,39 +264,41 @@ const WordLearning = () => {
 
   // 标记单词为已学习
   const markAsLearned = () => {
-    const newLearnedWords = new Set(learnedWords)
-    newLearnedWords.add(currentWord.id)
-    setLearnedWords(newLearnedWords)
+    if (currentWord) {
+      const newLearnedWords = new Set(learnedWords)
+      newLearnedWords.add(currentWord.id)
+      setLearnedWords(newLearnedWords)
 
-    // 更新学习进度
-    const newProgress = {
-      ...progress,
-      learnedWords: newLearnedWords.size,
-      categories: {
-        ...progress.categories,
-        [words[currentCategory].category]: words[currentCategory].words.filter(
-          word => newLearnedWords.has(word.id)
-        ).length
+      // 更新学习进度
+      const newProgress = {
+        ...progress,
+        learnedWords: newLearnedWords.size,
+        categories: {
+          ...progress.categories,
+          [words[currentCategory].category]: words[currentCategory].words.filter(
+            word => newLearnedWords.has(word.id)
+          ).length
+        }
       }
+      setProgress(newProgress)
+
+      // 增加积分（每个单词10分）
+      if (gamification) {
+        gamification.addPoints(10);
+      }
+
+      // 更新学习计划进度
+      const today = new Date().toISOString().split('T')[0]
+      const todayProgress = localStorage.getItem(`studyplan_${today}`) || 0
+      const newTodayProgress = parseInt(todayProgress) + 1
+      localStorage.setItem(`studyplan_${today}`, newTodayProgress)
+
+      // 更新学习时间
+      updateLearningTime();
+
+      // 检查成就
+      checkAchievements(newProgress)
     }
-    setProgress(newProgress)
-
-    // 增加积分（每个单词10分）
-    if (gamification) {
-      gamification.addPoints(10);
-    }
-
-    // 更新学习计划进度
-    const today = new Date().toISOString().split('T')[0]
-    const todayProgress = localStorage.getItem(`studyplan_${today}`) || 0
-    const newTodayProgress = parseInt(todayProgress) + 1
-    localStorage.setItem(`studyplan_${today}`, newTodayProgress)
-
-    // 更新学习时间
-    updateLearningTime();
-
-    // 检查成就
-    checkAchievements(newProgress)
   }
 
   // 下一个单词
@@ -400,14 +402,16 @@ const WordLearning = () => {
 
   // 添加到生词本
   const addToDifficult = (word) => {
-    setDifficultWords(prev => {
-      if (!prev.some(diff => diff.id === word.id)) {
-        const newDifficultWords = [...prev, word];
-        localStorage.setItem('difficultWords', JSON.stringify(newDifficultWords));
-        return newDifficultWords;
-      }
-      return prev;
-    });
+    if (word) {
+      setDifficultWords(prev => {
+        if (!prev.some(diff => diff.id === word.id)) {
+          const newDifficultWords = [...prev, word];
+          localStorage.setItem('difficultWords', JSON.stringify(newDifficultWords));
+          return newDifficultWords;
+        }
+        return prev;
+      });
+    }
   }
 
   return (
@@ -547,105 +551,113 @@ const WordLearning = () => {
           </div>
 
           {/* 单词卡片 */}
-          <div 
-            ref={wordCardRef}
-            className={`word-card ${isFlipped ? 'flipped' : ''}`} 
-            onClick={() => setIsFlipped(!isFlipped)}
-            role="button"
-            aria-pressed={isFlipped}
-            aria-label={`单词卡片：${currentWord.word}，点击翻转`}
-            tabIndex="0"
-            onKeyPress={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setIsFlipped(!isFlipped); } }}
-          >
-            <div className="card-inner">
-              {/* 卡片正面 */}
-              <div className="card-front" aria-hidden={isFlipped}>
-                <div className="word-icon">{currentWord.icon || words[currentCategory].icon}</div>
-                <div className="word-header">
-                  <h2>{currentWord.word}</h2>
-                  <span className="phonetic" aria-label={`发音：${currentWord.phonetic}`}>{currentWord.phonetic}</span>
-                </div>
-                <div className="pronounce-container">
-                  <button 
-                    className={`pronounce-btn ${isSpeaking ? 'speaking' : ''}`} 
-                    onClick={(e) => { e.stopPropagation(); pronounceWord(); }}
-                    onKeyPress={(e) => { e.stopPropagation(); if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pronounceWord(); } }}
-                    aria-label="播放单词发音"
-                    tabIndex="-1"
-                  >
-                    {isSpeaking ? '🔊' : '🔊'}
-                  </button>
-                  {isSpeaking && (
-                    <div className="audio-wave" aria-label="正在播放发音">
-                      {audioWave.map((height, index) => (
-                        <div 
-                          key={index} 
-                          className="wave-bar" 
-                          style={{ height: `${height}px` }}
-                        ></div>
-                      ))}
+          {currentWord ? (
+            <>
+              <div 
+                ref={wordCardRef}
+                className={`word-card ${isFlipped ? 'flipped' : ''}`} 
+                onClick={() => setIsFlipped(!isFlipped)}
+                role="button"
+                aria-pressed={isFlipped}
+                aria-label={`单词卡片：${currentWord.word}，点击翻转`}
+                tabIndex="0"
+                onKeyPress={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setIsFlipped(!isFlipped); } }}
+              >
+                <div className="card-inner">
+                  {/* 卡片正面 */}
+                  <div className="card-front" aria-hidden={isFlipped}>
+                    <div className="word-icon">{currentWord.icon || words[currentCategory].icon}</div>
+                    <div className="word-header">
+                      <h2>{currentWord.word}</h2>
+                      <span className="phonetic" aria-label={`发音：${currentWord.phonetic}`}>{currentWord.phonetic}</span>
                     </div>
-                  )}
+                    <div className="pronounce-container">
+                      <button 
+                        className={`pronounce-btn ${isSpeaking ? 'speaking' : ''}`} 
+                        onClick={(e) => { e.stopPropagation(); pronounceWord(); }}
+                        onKeyPress={(e) => { e.stopPropagation(); if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pronounceWord(); } }}
+                        aria-label="播放单词发音"
+                        tabIndex="-1"
+                      >
+                        {isSpeaking ? '🔊' : '🔊'}
+                      </button>
+                      {isSpeaking && (
+                        <div className="audio-wave" aria-label="正在播放发音">
+                          {audioWave.map((height, index) => (
+                            <div 
+                              key={index} 
+                              className="wave-bar" 
+                              style={{ height: `${height}px` }}
+                            ></div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    <button 
+                      className={`favorite-btn ${favorites.some(fav => fav.id === currentWord.id) ? 'favorited' : ''}`}
+                      onClick={(e) => { e.stopPropagation(); toggleFavorite(currentWord); }}
+                      onKeyPress={(e) => { e.stopPropagation(); if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFavorite(currentWord); } }}
+                      aria-label={favorites.some(fav => fav.id === currentWord.id) ? '取消收藏' : '收藏单词'}
+                      tabIndex="-1"
+                    >
+                      {favorites.some(fav => fav.id === currentWord.id) ? '❤️' : '🤍'}
+                    </button>
+                    <p className="flip-hint">点击卡片查看含义</p>
+                  </div>
+                  {/* 卡片背面 */}
+                  <div className="card-back" aria-hidden={!isFlipped}>
+                    <h3>{currentWord.word}</h3>
+                    <p className="meaning" aria-label={`含义：${currentWord.meaning}`}>{currentWord.meaning}</p>
+                    <p className="example" aria-label={`例句：${currentWord.example}`}>{currentWord.example}</p>
+                    <div className="card-buttons">
+                      <button 
+                        className="learned-btn" 
+                        onClick={(e) => { e.stopPropagation(); markAsLearned(); }}
+                        onKeyPress={(e) => { e.stopPropagation(); if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); markAsLearned(); } }}
+                        disabled={learnedWords.has(currentWord.id)}
+                        aria-label={learnedWords.has(currentWord.id) ? '已标记为学习' : '标记为已学习'}
+                        tabIndex="-1"
+                      >
+                        {learnedWords.has(currentWord.id) ? '已学习' : '标记为已学习'}
+                      </button>
+                      <button 
+                        className="difficult-btn"
+                        onClick={(e) => { e.stopPropagation(); addToDifficult(currentWord); }}
+                        onKeyPress={(e) => { e.stopPropagation(); if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); addToDifficult(currentWord); } }}
+                        disabled={difficultWords.some(diff => diff.id === currentWord.id)}
+                        aria-label={difficultWords.some(diff => diff.id === currentWord.id) ? '已添加到生词本' : '添加到生词本'}
+                        tabIndex="-1"
+                      >
+                        {difficultWords.some(diff => diff.id === currentWord.id) ? '📖 已添加' : '📖 添加到生词本'}
+                      </button>
+                    </div>
+                    <p className="flip-hint">点击卡片返回</p>
+                  </div>
                 </div>
-                <button 
-                  className={`favorite-btn ${favorites.some(fav => fav.id === currentWord.id) ? 'favorited' : ''}`}
-                  onClick={(e) => { e.stopPropagation(); toggleFavorite(currentWord); }}
-                  onKeyPress={(e) => { e.stopPropagation(); if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFavorite(currentWord); } }}
-                  aria-label={favorites.some(fav => fav.id === currentWord.id) ? '取消收藏' : '收藏单词'}
-                  tabIndex="-1"
-                >
-                  {favorites.some(fav => fav.id === currentWord.id) ? '❤️' : '🤍'}
-                </button>
-                <p className="flip-hint">点击卡片查看含义</p>
               </div>
-              {/* 卡片背面 */}
-              <div className="card-back" aria-hidden={!isFlipped}>
-                <h3>{currentWord.word}</h3>
-                <p className="meaning" aria-label={`含义：${currentWord.meaning}`}>{currentWord.meaning}</p>
-                <p className="example" aria-label={`例句：${currentWord.example}`}>{currentWord.example}</p>
-                <div className="card-buttons">
+              <div className="word-actions">
+                <div className="navigation" role="group" aria-label="单词导航">
                   <button 
-                    className="learned-btn" 
-                    onClick={(e) => { e.stopPropagation(); markAsLearned(); }}
-                    onKeyPress={(e) => { e.stopPropagation(); if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); markAsLearned(); } }}
-                    disabled={learnedWords.has(currentWord.id)}
-                    aria-label={learnedWords.has(currentWord.id) ? '已标记为学习' : '标记为已学习'}
-                    tabIndex="-1"
-                  >
-                    {learnedWords.has(currentWord.id) ? '已学习' : '标记为已学习'}
-                  </button>
+                    onClick={prevWord}
+                    onKeyPress={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); prevWord(); } }}
+                    aria-label="上一个单词"
+                    tabIndex="0"
+                  >上一个</button>
+                  <span role="status" aria-live="polite" aria-label={`当前单词 ${currentWordIndex + 1} 共 ${currentWords.length} 个`}>{currentWordIndex + 1} / {currentWords.length}</span>
                   <button 
-                    className="difficult-btn"
-                    onClick={(e) => { e.stopPropagation(); addToDifficult(currentWord); }}
-                    onKeyPress={(e) => { e.stopPropagation(); if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); addToDifficult(currentWord); } }}
-                    disabled={difficultWords.some(diff => diff.id === currentWord.id)}
-                    aria-label={difficultWords.some(diff => diff.id === currentWord.id) ? '已添加到生词本' : '添加到生词本'}
-                    tabIndex="-1"
-                  >
-                    {difficultWords.some(diff => diff.id === currentWord.id) ? '📖 已添加' : '📖 添加到生词本'}
-                  </button>
+                    onClick={nextWord}
+                    onKeyPress={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); nextWord(); } }}
+                    aria-label="下一个单词"
+                    tabIndex="0"
+                  >下一个</button>
                 </div>
-                <p className="flip-hint">点击卡片返回</p>
               </div>
+            </>
+          ) : (
+            <div className="loading-word">
+              <p>加载单词中...</p>
             </div>
-          </div>
-          <div className="word-actions">
-            <div className="navigation" role="group" aria-label="单词导航">
-              <button 
-                onClick={prevWord}
-                onKeyPress={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); prevWord(); } }}
-                aria-label="上一个单词"
-                tabIndex="0"
-              >上一个</button>
-              <span role="status" aria-live="polite" aria-label={`当前单词 ${currentWordIndex + 1} 共 ${currentWords.length} 个`}>{currentWordIndex + 1} / {currentWords.length}</span>
-              <button 
-                onClick={nextWord}
-                onKeyPress={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); nextWord(); } }}
-                aria-label="下一个单词"
-                tabIndex="0"
-              >下一个</button>
-            </div>
-          </div>
+          )}
         </main>
         <footer className="App-footer">
           <p>© 2026 521词小学英语口语学习应用</p>
