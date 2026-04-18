@@ -7,56 +7,18 @@ import Gamification from './Gamification'
 import TestModule from './TestModule'
 import StudyPlan from './StudyPlan'
 import StudyReport from './StudyReport'
+import { wordsData } from './data'
 
-// 模拟521个英语单词数据，按类别分类
-const wordsData = [
-  {
-    category: '水果',
-    icon: '🍎',
-    color: '#FF6B6B',
-    words: [
-      { id: 1, word: 'apple', meaning: '苹果', example: 'I eat an apple every day.', phonetic: 'ˈæpl', icon: '🍎' },
-      { id: 2, word: 'banana', meaning: '香蕉', example: 'Bananas are yellow.', phonetic: 'bəˈnɑːnə', icon: '🍌' },
-      { id: 3, word: 'orange', meaning: '橙子', example: 'I like orange juice.', phonetic: 'ˈɔːrɪndʒ', icon: '🍊' },
-      { id: 4, word: 'grape', meaning: '葡萄', example: 'Grapes are sweet.', phonetic: 'ɡreɪp', icon: '🍇' },
-      { id: 5, word: 'watermelon', meaning: '西瓜', example: 'Watermelon is refreshing.', phonetic: 'ˈwɔːtərmelən', icon: '🍉' }
-    ]
-  },
-  {
-    category: '动物',
-    icon: '🐶',
-    color: '#4ECDC4',
-    words: [
-      { id: 6, word: 'cat', meaning: '猫', example: 'The cat is black.', phonetic: 'kæt', icon: '🐱' },
-      { id: 7, word: 'dog', meaning: '狗', example: 'The dog is barking.', phonetic: 'dɔːɡ', icon: '🐶' },
-      { id: 8, word: 'bird', meaning: '鸟', example: 'The bird is singing.', phonetic: 'bɜːrd', icon: '🐦' },
-      { id: 9, word: 'fish', meaning: '鱼', example: 'The fish is swimming.', phonetic: 'fɪʃ', icon: '🐟' },
-      { id: 10, word: 'rabbit', meaning: '兔子', example: 'The rabbit is hopping.', phonetic: 'ˈræbɪt', icon: '🐰' }
-    ]
-  },
-  {
-    category: '食物',
-    icon: '🍕',
-    color: '#FFD166',
-    words: [
-      { id: 11, word: 'egg', meaning: '鸡蛋', example: 'I have an egg for breakfast.', phonetic: 'eɡ', icon: '🥚' },
-      { id: 12, word: 'bread', meaning: '面包', example: 'I eat bread every morning.', phonetic: 'bred', icon: '🍞' },
-      { id: 13, word: 'milk', meaning: '牛奶', example: 'I drink milk every day.', phonetic: 'mɪlk', icon: '🥛' },
-      { id: 14, word: 'rice', meaning: '米饭', example: 'I eat rice for lunch.', phonetic: 'raɪs', icon: '🍚' },
-      { id: 15, word: 'meat', meaning: '肉', example: 'I like meat.', phonetic: 'miːt', icon: '🥩' }
-    ]
-  }
-]
+// 计算总单词数
+const totalWords = wordsData.reduce((total, category) => total + category.words.length, 0)
 
-// 模拟学习进度数据
+// 初始化学习进度数据
 const initialProgress = {
-  totalWords: 15,
+  totalWords: totalWords,
   learnedWords: 0,
-  categories: {
-    '水果': 0,
-    '动物': 0,
-    '食物': 0
-  }
+  categories: Object.fromEntries(
+    wordsData.map(category => [category.category, 0])
+  )
 }
 
 // 成就数据
@@ -86,45 +48,33 @@ const achievements = [
     unlocked: false
   },
   {
+    id: 'advanced',
+    name: '高级学习者',
+    description: '学习50个单词',
+    icon: '💎',
+    requiredWords: 50,
+    unlocked: false
+  },
+  {
     id: 'master',
     name: '单词大师',
     description: '学习所有单词',
     icon: '👑',
-    requiredWords: 15,
+    requiredWords: totalWords,
     unlocked: false
   }
 ]
 
 // 分类成就
-const categoryAchievements = [
-  {
-    id: 'fruit_master',
-    name: '水果专家',
-    description: '学习所有水果单词',
-    icon: '🍎',
-    category: '水果',
-    requiredWords: 5,
-    unlocked: false
-  },
-  {
-    id: 'animal_master',
-    name: '动物专家',
-    description: '学习所有动物单词',
-    icon: '🐶',
-    category: '动物',
-    requiredWords: 5,
-    unlocked: false
-  },
-  {
-    id: 'food_master',
-    name: '食物专家',
-    description: '学习所有食物单词',
-    icon: '🍕',
-    category: '食物',
-    requiredWords: 5,
-    unlocked: false
-  }
-]
+const categoryAchievements = wordsData.map((category, index) => ({
+  id: `${category.category.toLowerCase().replace(/\s+/g, '_')}_master`,
+  name: `${category.category}专家`,
+  description: `学习所有${category.category}单词`,
+  icon: category.icon,
+  category: category.category,
+  requiredWords: category.words.length,
+  unlocked: false
+}))
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
@@ -679,7 +629,7 @@ function App() {
               <div className="card-inner">
                 {/* 卡片正面 */}
                 <div className="card-front" aria-hidden={isFlipped}>
-                  <div className="word-icon">{currentWord.icon}</div>
+                  <div className="word-icon">{currentWord.icon || words[currentCategory].icon}</div>
                   <div className="word-header">
                     <h2>{currentWord.word}</h2>
                     <span className="phonetic" aria-label={`发音：${currentWord.phonetic}`}>{currentWord.phonetic}</span>
