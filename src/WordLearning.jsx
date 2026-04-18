@@ -467,27 +467,18 @@ const WordLearning = () => {
             <Link to="/words" className="nav-btn active">
               📚 单词学习
             </Link>
-            <Link to="/dialogue" className="nav-btn">
-              💬 场景对话
-            </Link>
-            <Link to="/sentence" className="nav-btn">
-              📝 句型训练
-            </Link>
-            <Link to="/test" className="nav-btn">
-              🧪 单词测试
-            </Link>
-            <Link to="/studyplan" className="nav-btn">
-              📅 学习计划
-            </Link>
-            <Link to="/favorites" className="nav-btn">
-              ❤️ 收藏
-            </Link>
-            <Link to="/difficult" className="nav-btn">
-              📖 生词本
-            </Link>
-            <Link to="/report" className="nav-btn">
-              📊 学习报告
-            </Link>
+            <div className="nav-dropdown">
+              <button className="nav-dropdown-btn">更多功能 ▼</button>
+              <div className="nav-dropdown-content">
+                <Link to="/dialogue">💬 场景对话</Link>
+                <Link to="/sentence">📝 句型训练</Link>
+                <Link to="/test">🧪 单词测试</Link>
+                <Link to="/studyplan">📅 学习计划</Link>
+                <Link to="/favorites">❤️ 收藏</Link>
+                <Link to="/difficult">📖 生词本</Link>
+                <Link to="/report">📊 学习报告</Link>
+              </div>
+            </div>
           </div>
           
           {/* 游戏化状态显示 */}
