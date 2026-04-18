@@ -184,11 +184,11 @@ const WordLearning = () => {
       learningStats.categoryProgress = {
         ...learningStats.categoryProgress,
         ...Object.fromEntries(
-          words.map(category => [
+          (Array.isArray(words) ? words : []).map(category => [
             category.category,
             {
-              total: category.words.length,
-              learned: category.words.filter(word => learnedWords.has(word.id)).length
+              total: category.words?.length || 0,
+              learned: category.words?.filter(word => learnedWords.has(word.id)).length || 0
             }
           ])
         )
@@ -204,21 +204,26 @@ const WordLearning = () => {
 
   // 初始化游戏化系统
   useEffect(() => {
-    if (!isLoading) {
-      const gameSystem = Gamification({ progress, learnedWords, setProgress });
-      setGamification(gameSystem);
-      
-      // 监听游戏化系统的奖励通知
-      const checkRewards = () => {
-        if (gameSystem.showReward && gameSystem.currentReward) {
-          setShowReward(true);
-          setCurrentReward(gameSystem.currentReward);
-          setTimeout(() => setShowReward(false), 3000);
-        }
-      };
-      
-      const interval = setInterval(checkRewards, 1000);
-      return () => clearInterval(interval);
+    if (!isLoading && progress && learnedWords) {
+      try {
+        const gameSystem = Gamification({ progress, learnedWords, setProgress });
+        setGamification(gameSystem);
+        
+        // 监听游戏化系统的奖励通知
+        const checkRewards = () => {
+          if (gameSystem && gameSystem.showReward && gameSystem.currentReward) {
+            setShowReward(true);
+            setCurrentReward(gameSystem.currentReward);
+            setTimeout(() => setShowReward(false), 3000);
+          }
+        };
+        
+        const interval = setInterval(checkRewards, 1000);
+        return () => clearInterval(interval);
+      } catch (error) {
+        console.error('Failed to initialize gamification system:', error);
+        setGamification(null);
+      }
     }
   }, [isLoading, progress, learnedWords])
 
@@ -262,32 +267,34 @@ const WordLearning = () => {
 
   // 检查并解锁成就
   const checkAchievements = (newProgress) => {
-    // 检查全局成就
-    achievements.forEach(achievement => {
-      if (!unlockedAchievements.includes(achievement.id) && 
-          newProgress.learnedWords >= achievement.requiredWords) {
-        setUnlockedAchievements(prev => [...prev, achievement.id])
-        setCurrentAchievement(achievement)
-        setShowAchievement(true)
-        setTimeout(() => setShowAchievement(false), 3000)
-      }
-    })
+    if (newProgress) {
+      // 检查全局成就
+      (Array.isArray(achievements) ? achievements : []).forEach(achievement => {
+        if (achievement && !unlockedAchievements.includes(achievement.id) && 
+            newProgress.learnedWords >= achievement.requiredWords) {
+          setUnlockedAchievements(prev => [...prev, achievement.id])
+          setCurrentAchievement(achievement)
+          setShowAchievement(true)
+          setTimeout(() => setShowAchievement(false), 3000)
+        }
+      })
 
-    // 检查分类成就
-    categoryAchievements.forEach(achievement => {
-      if (!unlockedCategoryAchievements.includes(achievement.id) && 
-          newProgress.categories[achievement.category] >= achievement.requiredWords) {
-        setUnlockedCategoryAchievements(prev => [...prev, achievement.id])
-        setCurrentAchievement(achievement)
-        setShowAchievement(true)
-        setTimeout(() => setShowAchievement(false), 3000)
-      }
-    })
+      // 检查分类成就
+      (Array.isArray(categoryAchievements) ? categoryAchievements : []).forEach(achievement => {
+        if (achievement && !unlockedCategoryAchievements.includes(achievement.id) && 
+            newProgress.categories && newProgress.categories[achievement.category] >= achievement.requiredWords) {
+          setUnlockedCategoryAchievements(prev => [...prev, achievement.id])
+          setCurrentAchievement(achievement)
+          setShowAchievement(true)
+          setTimeout(() => setShowAchievement(false), 3000)
+        }
+      })
+    }
   }
 
   // 标记单词为已学习
   const markAsLearned = () => {
-    if (currentWord) {
+    if (currentWord && words.length > 0 && currentCategory < words.length) {
       const newLearnedWords = new Set(learnedWords)
       newLearnedWords.add(currentWord.id)
       setLearnedWords(newLearnedWords)
@@ -326,38 +333,42 @@ const WordLearning = () => {
 
   // 下一个单词
   const nextWord = () => {
-    if (currentWordIndex < currentWords.length - 1) {
-      setCurrentWordIndex(currentWordIndex + 1)
-    } else {
-      // 如果当前分类已完成，切换到下一个分类
-      if (currentCategory < words.length - 1) {
-        setCurrentCategory(currentCategory + 1)
-        setCurrentWordIndex(0)
+    if (currentWords.length > 0) {
+      if (currentWordIndex < currentWords.length - 1) {
+        setCurrentWordIndex(currentWordIndex + 1)
       } else {
-        // 所有分类已完成，回到第一个分类
-        setCurrentCategory(0)
-        setCurrentWordIndex(0)
+        // 如果当前分类已完成，切换到下一个分类
+        if (words.length > 0 && currentCategory < words.length - 1) {
+          setCurrentCategory(currentCategory + 1)
+          setCurrentWordIndex(0)
+        } else if (words.length > 0) {
+          // 所有分类已完成，回到第一个分类
+          setCurrentCategory(0)
+          setCurrentWordIndex(0)
+        }
       }
+      setIsFlipped(false)
     }
-    setIsFlipped(false)
   }
 
   // 上一个单词
   const prevWord = () => {
-    if (currentWordIndex > 0) {
-      setCurrentWordIndex(currentWordIndex - 1)
-    } else {
-      // 如果是当前分类的第一个单词，切换到上一个分类的最后一个单词
-      if (currentCategory > 0) {
-        setCurrentCategory(currentCategory - 1)
-        setCurrentWordIndex(words[currentCategory - 1].words.length - 1)
+    if (currentWords.length > 0) {
+      if (currentWordIndex > 0) {
+        setCurrentWordIndex(currentWordIndex - 1)
       } else {
-        // 已经是第一个分类的第一个单词，切换到最后一个分类的最后一个单词
-        setCurrentCategory(words.length - 1)
-        setCurrentWordIndex(words[words.length - 1].words.length - 1)
+        // 如果是当前分类的第一个单词，切换到上一个分类的最后一个单词
+        if (words.length > 0 && currentCategory > 0) {
+          setCurrentCategory(currentCategory - 1)
+          setCurrentWordIndex(words[currentCategory - 1].words.length - 1)
+        } else if (words.length > 0) {
+          // 已经是第一个分类的第一个单词，切换到最后一个分类的最后一个单词
+          setCurrentCategory(words.length - 1)
+          setCurrentWordIndex(words[words.length - 1].words.length - 1)
+        }
       }
+      setIsFlipped(false)
     }
-    setIsFlipped(false)
   }
 
   // 手势支持
@@ -403,24 +414,28 @@ const WordLearning = () => {
 
   // 切换分类
   const changeCategory = (index) => {
-    setCurrentCategory(index)
-    setCurrentWordIndex(0)
-    setIsFlipped(false)
+    if (Array.isArray(words) && index >= 0 && index < words.length) {
+      setCurrentCategory(index)
+      setCurrentWordIndex(0)
+      setIsFlipped(false)
+    }
   }
 
   // 切换收藏状态
   const toggleFavorite = (word) => {
-    setFavorites(prev => {
-      const isFavorite = prev.some(fav => fav.id === word.id);
-      let newFavorites;
-      if (isFavorite) {
-        newFavorites = prev.filter(fav => fav.id !== word.id);
-      } else {
-        newFavorites = [...prev, word];
-      }
-      localStorage.setItem('favorites', JSON.stringify(newFavorites));
-      return newFavorites;
-    });
+    if (word && word.id) {
+      setFavorites(prev => {
+        const isFavorite = prev.some(fav => fav.id === word.id);
+        let newFavorites;
+        if (isFavorite) {
+          newFavorites = prev.filter(fav => fav.id !== word.id);
+        } else {
+          newFavorites = [...prev, word];
+        }
+        localStorage.setItem('favorites', JSON.stringify(newFavorites));
+        return newFavorites;
+      });
+    }
   }
 
   // 添加到生词本
@@ -495,7 +510,7 @@ const WordLearning = () => {
               <div className="progress-bar" role="progressbar" aria-valuenow={progress.learnedWords} aria-valuemin="0" aria-valuemax={progress.totalWords} aria-label="学习进度">
                 <div 
                   className="progress-fill" 
-                  style={{ width: `${(progress.learnedWords / progress.totalWords) * 100}%` }}
+                  style={{ width: `${progress.totalWords > 0 ? (progress.learnedWords / progress.totalWords) * 100 : 0}%` }}
                 >
                   <div className="progress-glow"></div>
                 </div>
@@ -509,8 +524,8 @@ const WordLearning = () => {
               <p className="progress-text" role="status" aria-live="polite">
                 学习进度: {progress.learnedWords} / {progress.totalWords} 单词
               </p>
-              <div className="progress-percentage" aria-label={`学习进度 ${Math.round((progress.learnedWords / progress.totalWords) * 100)}%`}>
-                {Math.round((progress.learnedWords / progress.totalWords) * 100)}%
+              <div className="progress-percentage" aria-label={`学习进度 ${progress.totalWords > 0 ? Math.round((progress.learnedWords / progress.totalWords) * 100) : 0}%`}>
+                {progress.totalWords > 0 ? Math.round((progress.learnedWords / progress.totalWords) * 100) : 0}%
               </div>
             </div>
           </div>
@@ -553,21 +568,21 @@ const WordLearning = () => {
                 style={{ '--category-color': category.color }}
                 role="radio"
                 aria-checked={index === currentCategory}
-                aria-label={`${category.category}分类，已学习${progress.categories[category.category]}/${category.words.length}个单词`}
+                aria-label={`${category.category}分类，已学习${progress.categories[category.category] || 0}/${category.words.length}个单词`}
                 tabIndex="0"
               >
                 <span className="category-icon">{category.icon}</span>
                 <span className="category-name">{category.category}</span>
-                <div className="category-progress" role="progressbar" aria-valuenow={progress.categories[category.category]} aria-valuemin="0" aria-valuemax={category.words.length} aria-label={`${category.category}分类学习进度`}>
+                <div className="category-progress" role="progressbar" aria-valuenow={progress.categories[category.category] || 0} aria-valuemin="0" aria-valuemax={category.words.length} aria-label={`${category.category}分类学习进度`}>
                   <div 
                     className="category-progress-bar" 
                     style={{ 
-                      width: `${(progress.categories[category.category] / category.words.length) * 100}%` 
+                      width: `${category.words.length > 0 ? ((progress.categories[category.category] || 0) / category.words.length) * 100 : 0}%` 
                     }}
                   ></div>
                 </div>
                 <span className="category-count">
-                  {progress.categories[category.category]}/{category.words.length}
+                  {(progress.categories[category.category] || 0)}/{category.words.length}
                 </span>
               </button>
             ))}
