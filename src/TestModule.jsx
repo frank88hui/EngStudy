@@ -140,7 +140,7 @@ function TestModule({ wordsData, onTestComplete }) {
     const allWords = wordsData.flatMap(category => category.words)
     const otherWords = allWords.filter(word => word.id !== currentWord.id)
     const shuffled = otherWords.sort(() => 0.5 - Math.random())
-    const options = [currentWord.word, ...shuffled.slice(0, 3)].sort(() => 0.5 - Math.random())
+    const options = [currentWord.word, ...shuffled.slice(0, 3).map(word => word.word)].sort(() => 0.5 - Math.random())
     return options
   }
 
@@ -159,7 +159,7 @@ function TestModule({ wordsData, onTestComplete }) {
     const allWords = wordsData.flatMap(category => category.words)
     const otherWords = allWords.filter(word => word.id !== currentWord.id)
     const shuffled = otherWords.sort(() => 0.5 - Math.random())
-    const options = [currentWord.word, ...shuffled.slice(0, 3)].sort(() => 0.5 - Math.random())
+    const options = [currentWord.word, ...shuffled.slice(0, 3).map(word => word.word)].sort(() => 0.5 - Math.random())
     return options
   }
 
