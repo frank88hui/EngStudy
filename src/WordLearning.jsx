@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import LoadingAnimation from './LoadingAnimation'
 import Gamification from './Gamification'
 import { wordsData } from './data'
