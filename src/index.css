@@ -1,0 +1,197 @@
+/* 导入适合儿童的字体 */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap');
+
+:root {
+  /* 儿童友好的色彩方案 - 优化对比度以符合WCAG标准 */
+  --primary-color: #E63946;
+  --secondary-color: #1D3557;
+  --accent-color: #F15BB5;
+  --background-color: #F8F9FA;
+  --text-color: #1E1E1E;
+  --card-background: #FFFFFF;
+  --progress-color: #E63946;
+  --success-color: #06D6A0;
+  --warning-color: #FF9F1C;
+  --info-color: #3A86FF;
+  --border-radius: 20px;
+  --box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+
+  /* 字体设置 */
+  font-family: 'Nunito', system-ui, sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+
+  color-scheme: light;
+  color: var(--text-color);
+  background-color: var(--background-color);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* 背景图案 - 优化性能 */
+  background-image: 
+    radial-gradient(var(--accent-color) 1px, transparent 1px),
+    radial-gradient(var(--secondary-color) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
+  background-attachment: fixed;
+  background-opacity: 0.1;
+}
+
+/* 标题字体 */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+a {
+  font-weight: 600;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--accent-color);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* 按钮样式 */
+button {
+  border-radius: var(--border-radius);
+  border: 3px solid var(--primary-color);
+  padding: 0.8em 1.5em;
+  font-size: 1em;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+button:hover {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(255, 209, 102, 0.4);
+}
+
+button:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px solid rgba(255, 107, 107, 0.5);
+  outline-offset: 3px;
+}
+
+/* 按钮动画 */
+button::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: rotate(45deg);
+  transition: all 0.6s ease;
+  opacity: 0;
+}
+
+button:hover::before {
+  animation: shine 1.5s ease;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+/* 禁用状态 */
+button:disabled {
+  background-color: #CCCCCC;
+  border-color: #CCCCCC;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* 加载动画 */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* 渐变背景 */
+.gradient-bg {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+/* 卡片样式 */
+.card {
+  background: var(--card-background);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 2rem;
+  transition: var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* 响应式字体大小 */
+@media (max-width: 768px) {
+  :root {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    font-size: 12px;
+  }
+}
